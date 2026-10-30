@@ -91,10 +91,11 @@ const MAX_BODY_BYTES = 64 * 1024
 // Official session ids come in three shapes: `session-<uuid>` (web UI,
 // created via the api), `session-<n>` (store-minted, e.g. forks created
 // without an explicit id) and `<uuid>` (subagent children, created as
-// `SessionId(randomUUID())`). Accept all three; keep the charset tight
-// (hex + dashes only, plus the literal "session-" prefix) because the id
-// is joined into a trash path.
-const SESSION_ID_RE = /^(session-)?[0-9a-fA-F-]+$/
+// `SessionId(randomUUID())`). dsh-emacs mints `session-emacs-<sha256>`.
+// Accept any alphanumeric/hyphen id so client-minted ids are not rejected,
+// while still excluding path separators and dots because the id is joined
+// into a trash path.
+const SESSION_ID_RE = /^(session-)?[0-9A-Za-z-]+$/
 /** Maximum trash entries kept; the oldest overflow is purged automatically. */
 export const TRASH_LIMIT = 10
 const STATS_EVENT_LIMIT = 5000
